@@ -1,5 +1,65 @@
---ALTER TABLE nombre_tabla RENAME COLUMN nombre_columna_vieja to nombre_columna_nueva;
 
+
+CREATE TABLE Users (
+    UsuarioID INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(100),
+    Email NVARCHAR(100),
+    Password NVARCHAR(100),
+    Rol NVARCHAR(50)
+);
+
+CREATE TABLE Mesas (
+    MesaId INT PRIMARY KEY IDENTITY(1,1),
+    NumeroPosiciones INT,
+    Estado NVARCHAR(50),
+    NumeroMesa INT
+);
+
+CREATE TABLE Productos (
+    ProductoId INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(100),
+    Precio DECIMAL(10, 2),
+    Descripcion NVARCHAR(255)
+);
+
+CREATE TABLE Pedidos (
+    PedidoID INT PRIMARY KEY IDENTITY(1,1),
+    MesaID INT,
+    Posicion INT,
+    Estado NVARCHAR(50),
+    FOREIGN KEY (MesaID) REFERENCES Mesas(MesaId)
+);
+
+CREATE TABLE PedidoProducto (
+    PedidoID INT,
+    ProductoID INT,
+    Cantidad INT,
+    PRIMARY KEY (PedidoID, ProductoID),
+    FOREIGN KEY (PedidoID) REFERENCES Pedidos(PedidoID),
+    FOREIGN KEY (ProductoID) REFERENCES Productos(ProductoId)
+);
+
+CREATE TABLE Reservas (
+    ReservaId INT PRIMARY KEY IDENTITY(1,1),
+    MesaId INT,
+    ClienteNombre NVARCHAR(100),
+    FechaReserva DATETIME,
+    Estado NVARCHAR(50),
+    UsuarioID INT,
+    FOREIGN KEY (MesaId) REFERENCES Mesas(MesaId),
+    FOREIGN KEY (UsuarioID) REFERENCES Users(UsuarioID)
+);
+
+CREATE TABLE Facturas (
+    FacturaID INT PRIMARY KEY IDENTITY(1,1),
+    PedidoID INT,
+    Total DECIMAL(10, 2),
+    itbis DECIMAL(10, 2),
+    Totalconimpuestos DECIMAL(10, 2),
+    TipoFactura NVARCHAR(50),
+    Estado NVARCHAR(50),
+    FOREIGN KEY (PedidoID) REFERENCES Pedidos(PedidoID)
+);
 CREATE TABLE Pedido (
     PedidoID INT PRIMARY KEY IDENTITY,
     MesaID INT FOREIGN KEY REFERENCES Mesa(MesaID),
@@ -20,7 +80,7 @@ CREATE TABLE Factura (
 );
 
 
-DELETE FROM Roles;
+
 
 ALTER TABLE Reserva
 ADD CONSTRAINT FK_Reserva_Usuario

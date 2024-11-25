@@ -63,24 +63,6 @@ namespace GestionFastFood.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EditarReserva(int id, Reserva model)
-        {
-            if (ModelState.IsValid)
-            {
-                var reserva = _context.Reservas.Find(id);
-                if (reserva == null) return NotFound();
-                reserva.MesaId = model.MesaId;
-                reserva.ClienteNombre = model.ClienteNombre;
-                reserva.FechaReserva = model.FechaReserva;
-                reserva.Estado = model.Estado;
-                _context.SaveChanges();
-                return RedirectToAction("ListaReservas");
-            }
-            ViewBag.Mesas = new SelectList(_context.Mesas, "MesaId", "NumeroMesa");
-            return View(model);
-        }
 
         public IActionResult BorrarReserva(int id)
         {
