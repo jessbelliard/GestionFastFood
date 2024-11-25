@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+//using AspNetCore;
+using GestionFastFood.Models;
 
 namespace GestionFastFood.Models
 {
@@ -9,5 +12,8 @@ namespace GestionFastFood.Models
         public int NumeroPosiciones { get; set; }
         public string Estado { get; set; }
         public int NumeroMesa { get; set; }
+
+        public virtual ICollection<Reserva> Reservas { get; set; }
     }
 }
+

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<GestionFastFood.Models.Reserva>
+
+<h2>Lista de Reservas</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mesa</th>
+            <th>Cliente</th>
+            <th>Fecha de Reserva</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reserva in Model)
+        {
+            <tr>
+                <td>@reserva.Mesa.NumeroMesa</td>
+                <td>@reserva.ClienteNombre</td>
+                <td>@reserva.FechaReserva.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    @switch (reserva.Estado)
+                    {
+                        case "Pendiente":
+                            <span class="badge badge-warning">Pendiente</span>
+                            break;
+                        case "Confirmada":
+                            <span class="badge badge-success">Confirmada</span>
+                            break;
+                        case "Cancelada":
+                            <span class="badge badge-danger">Cancelada</span>
+                            break;
+                        default:
+                            <span>Estado desconocido</span>
+                            break;
+                    }
+                </td>
+                <td>
+                    <a asp-action="EditarReserva" asp-route-id="@reserva.ReservaId" class="btn btn-primary">Editar</a>
+                    @if (reserva.Estado != "Cancelada")
+                    {
+                        <a asp-action="CancelarReserva" asp-route-id="@reserva.ReservaId" class="btn btn-danger" onclick="return confirm('¿Estás seguro de cancelar esta reserva?');">Cancelar</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

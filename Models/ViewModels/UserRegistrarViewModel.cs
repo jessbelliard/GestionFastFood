@@ -6,6 +6,7 @@ namespace GestionFastFood.Models.ViewModels
 {
     public class UserRegistrarViewModel
     {
+        //manejar los datos necesarios para un formulario de registro de usuarios;Registro de usuarios en un formulario público.
         [Required]
         [Display(Name = "Nombre")]
         public string Nombre { get; set; }

@@ -8,17 +8,13 @@ using GestionFastFood.Models.ViewModels;
 
 namespace GestionFastFood.Controllers
 {
+
+    //Procesos de inicio de sesión y registro de usuarios.
     public class AccesoController : Controller
     {
+        //modelo UserRegistrarViewModel
         private readonly RestauranteDbContext _context;
-
-        public AccesoController(RestauranteDbContext context) 
-        {
-
-            _context = context;
-        }
-        //GET: /AUTH/Register
-        [HttpGet]
+       
         public IActionResult Register()
         {
             return View();
@@ -40,7 +36,7 @@ namespace GestionFastFood.Controllers
 
 
                 //encriptar contrase;a
-                var passwordHash = HashPassword(model.Contraseña);
+                var passwordHash = Hash(model.Contraseña);
 
                 var user = new User
                 {
@@ -58,15 +54,15 @@ namespace GestionFastFood.Controllers
 
             return View(model);
         }
-        
-        private string HashPassword(string contraseña)
+
+		private static string Hash(string contraseña)
         {
-            using(var sha256 = SHA256.Create())
+            using(var sha256 = System.Security.Cryptography.SHA256.Create())
             {
                 var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(contraseña));
                 return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
             }
-            throw new NotImplementedException();
+           
         }
 
 		public IActionResult OtraPagina()

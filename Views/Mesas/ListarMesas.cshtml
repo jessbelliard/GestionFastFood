@@ -1,0 +1,22 @@
+﻿@model IEnumerable<GestionFastFood.Models.Mesa>
+
+<h2>Listado de Mesas</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre de Mesa</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mesa in Model)
+        {
+            <tr>
+                <td>@mesa.MesaId</td>
+                <td>@mesa.Estado</td>
+                <td>@mesa.Estado</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,4 +1,5 @@
 ﻿using GestionFastFood.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace GestionFastFood.Models
@@ -11,6 +12,9 @@ namespace GestionFastFood.Models
         public string ClienteNombre { get; set; }
         public DateTime FechaReserva { get; set; }
         public string Estado { get; set; }
+        [Required]
+        [Range(1,20,ErrorMessage = "La cantidad de personas debe ser entre 1 y 20.")]
+        public string CantidadPersonas { get; set; }
         public int UsuarioID { get; set; }
 
         public virtual Mesa Mesa { get; set; }

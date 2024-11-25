@@ -15,6 +15,10 @@ namespace GestionFastFood.Controllers
             _logger = logger;
         }
 
+		public IActionResult Login()
+		{
+			return View();
+		}
 		public IActionResult Register()
         {
             return View();
@@ -38,6 +42,11 @@ namespace GestionFastFood.Controllers
         public IActionResult EditarReserva()
         {
 
+            return View();
+        }
+
+        public IActionResult CreateMesa()
+        {
             return View();
         }
 

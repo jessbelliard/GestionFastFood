@@ -13,7 +13,17 @@ namespace GestionFastFood.Controllers
         public ReservaController(RestauranteDbContext context)
         {
             _context = context;
-        }   
+        }
+
+        public IActionResult CrearReserva()
+        {
+            ViewBag.Mesas = new SelectList(_context.Mesas,"MesaId", "NumeroMesa");
+            /*ViewBag.Mesas = _context.Mesas.ToList();*/
+            /*var mesas = _context.Mesas.ToList();
+            ViewBag.Mesas = new SelectList(mesas, "MesaId", "Estado");*/
+            return View();
+        }
+
 
         public IActionResult ListaReservas()
         {
@@ -21,11 +31,8 @@ namespace GestionFastFood.Controllers
             return View(reservas);
         }
 
-        public IActionResult CrearReserva()
-        {
-            ViewBag.Mesas = new SelectList(_context.Mesas, "MesaId", "NumeroMesa");
-            return View();
-        }
+      
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -38,7 +45,9 @@ namespace GestionFastFood.Controllers
                     MesaId = model.MesaId,
                     ClienteNombre = model.ClienteNombre,
                     FechaReserva = model.FechaReserva,
-                    Estado = model.Estado
+                    CantidadPersonas = model.CantidadPersonas,    
+                    Estado = model.Estado,
+                    UsuarioID = model.UsuarioID
                 };
                 _context.Reservas.Add(reserva);
                 _context.SaveChanges();
@@ -57,13 +66,32 @@ namespace GestionFastFood.Controllers
                 MesaId = reserva.MesaId,
                 ClienteNombre = reserva.ClienteNombre,
                 FechaReserva = reserva.FechaReserva,
-                Estado = reserva.Estado
+                Estado = reserva.Estado,
+                CantidadPersonas = reserva.CantidadPersonas
             };
             ViewBag.Mesas = new SelectList(_context.Mesas, "MesaId", "NumeroMesa");
             return View(model);
         }
 
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditarReserva(int id, Reserva model)
+        {
+            if (ModelState.IsValid)
+            {
+                var reserva = _context.Reservas.Find(id);
+                if (reserva == null) return NotFound();
+                reserva.MesaId = model.MesaId;
+                reserva.ClienteNombre = model.ClienteNombre;
+                reserva.FechaReserva = model.FechaReserva;
+                reserva.Estado = model.Estado;
+                reserva.CantidadPersonas = model.CantidadPersonas;
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.Mesas = new SelectList(_context.Mesas, "MesaId", "NumeroMesa");
+            return View(model);
+        }
         public IActionResult BorrarReserva(int id)
         {
             var reserva = _context.Reservas.Find(id);

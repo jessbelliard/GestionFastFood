@@ -1,0 +1,11 @@
+﻿@using GestionFastFood.Models.ViewModels;
+@model UserViewModel
+
+<h2>Confirmar Borrado</h2>
+<p>¿Está seguro de que desea eliminar al usuario @Model.Nombre?</p>
+
+<form asp-action="BorrarConfirmado" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit">Sí, eliminar</button>
+    <a asp-action="Index">Cancelar</a>
+</form>
