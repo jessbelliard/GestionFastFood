@@ -1,23 +1,33 @@
 ﻿@model GestionFastFood.Models.Reserva;
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}
 
 <h>Crear Reservas</h>
 <form asp-action="CrearReserva" method="post">
+    
     <div class="form-group">
-        <label>Mesa</label>
-        <select asp-for="MesaId" asp-items="ViewBag.Mesas" class="form-control"></select>
+        <label>NumeroMesa</label>
+        @Html.DropDownListFor(model => model.MesaId, (IEnumerable<SelectListItem>)ViewBag.Mesas, "Seleccione una mesa", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.MesaId, "", new { @class = "text-danger" })
+       
     </div>
     <div class="form-group">
         <label>Nombre del Cliente</label>
-        <input asp-for="ClienteNombre" class="form-control" />
+        <input asp-for="ClienteNombre" class="form-control" required />
+        @Html.ValidationMessageFor(model => model.ClienteNombre, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
         <label>Fecha de la Reserva</label>
         <input asp-for="FechaReserva" class="form-control" type="datetime-local" />
+        @Html.ValidationMessageFor(model => model.FechaReserva, "", new { @class = "text-danger" })
+
     </div>
     <div class="form-group">
         <label>Cantidad de Personas</label>
-        <input asp-for="CantidadPersonas"class="form-control"type="number" min="1" max="20" />
+        <input asp-for="CantidadPersonas" class="form-control" type="number" min="1" max="20" />
+        @Html.ValidationMessageFor(model => model.CantidadPersonas, "", new { @class = "text-danger" })
    
     </div>
-    <button type="submit" class="btn btn-primary">Crear Reserva</button
+    <button type="submit" class="btn btn-primary">Crear Reserva</button>
 </form>

@@ -17,7 +17,7 @@ namespace GestionFastFood.Controllers
         }
 
         // GET: /Mesas/Index
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> CreateMesa()
         {
             var mesas = await _context.Mesas.ToListAsync();
             return View(mesas);
@@ -45,7 +45,11 @@ namespace GestionFastFood.Controllers
             return View(mesas); // Pasa las mesas a la vista
         }
 
-
+        public async Task<IActionResult> ActualizarMesa()
+        {
+            var mesas = await _context.Mesas.ToListAsync();
+            return View(mesas);
+        }
         // POST: /Mesas/ActualizarEstado/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]

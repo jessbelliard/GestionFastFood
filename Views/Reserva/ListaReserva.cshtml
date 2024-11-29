@@ -1,0 +1,46 @@
+﻿@model IEnumerable<GestionFastFood.Models.Reserva>
+
+<h2>Listado de Reservas</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No hay reservas registradas.
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Mesa</th>
+                <th>Cliente</th>
+                <th>Fecha de Reserva</th>
+                <th>Cantidad de Personas</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reserva in Model)
+            {
+                <tr>
+                    <td>@reserva.ReservaId</td>
+                    <td>@reserva.MesaId</td>
+                    <td>@reserva.ClienteNombre</td>
+                    <td>@reserva.FechaReserva.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@reserva.CantidadPersonas</td>
+                    <td>@reserva.Estado</td>
+                    <td>
+                        <a asp-action="EditarReserva" asp-route-id="@reserva.ReservaId" class="btn btn-warning btn-sm">Editar</a>
+                        <a asp-action="BorrarReserva" asp-route-id="@reserva.ReservaId" class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Está seguro de que desea eliminar esta reserva?');">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -37,6 +37,13 @@ namespace GestionFastFood
             modelBuilder.Entity<Factura>().ToTable("Factura");
             modelBuilder.Entity<Factura>().HasKey(x => x.FacturaID);
 
+            modelBuilder.Entity<Reserva>().HasKey(r => r.ReservaId);
+            modelBuilder.Entity<Mesa>().HasKey(m => m.MesaId);
+
+            modelBuilder.Entity<Mesa>()
+                .HasMany<Reserva>()
+                .WithOne()
+                .HasForeignKey(r => r.MesaId);
             /*modelBuilder.Entity<PedidoProducto>().ToTable("PedidoProducto");
             modelBuilder.Entity<PedidoProducto>().HasKey(x => x.);*/
 

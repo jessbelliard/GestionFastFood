@@ -1,12 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using GestionFastFood.Models;
+using GestionFastFood.Services;
 
 namespace GestionFastFood
 {
     public class Program
     {
         public static void Main(string[] args)
+            
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,7 @@ namespace GestionFastFood
             builder.Services.AddDbContext<RestauranteDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("RestaurantDB")));
 
+            builder.Services.AddScoped<EmailService>();
 
             var app = builder.Build();
 
@@ -50,5 +53,6 @@ namespace GestionFastFood
             app.Run();
 
         }
+        
     }
 }

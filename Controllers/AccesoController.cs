@@ -26,7 +26,7 @@ namespace GestionFastFood.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Verificar
+                //Verificar porque le hace falta una instancia 
                 var existingUser =_context.Users.SingleOrDefault(u => u.Correo == model.Correo);
                 if(existingUser != null)
                 {
