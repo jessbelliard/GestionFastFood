@@ -2,10 +2,10 @@
 
 <h2>Editar Mesa</h2>
 
-<form asp-action="EditarMesa" method="post">
+<form asp-action="ActualizarMesa" method="post">
     <input type="hidden" asp-for="MesaId" />
     <div class="form-group">
-        <label for="NumeroMesa">Nombre de la Mesa</label>
+        <label for="NumeroMesa">Numero de la Mesa</label>
         <input asp-for="NumeroMesa" class="form-control" id="NumeroMesa" />
         <span asp-validation-for="NumeroMesa" class="text-danger"></span>
     </div>

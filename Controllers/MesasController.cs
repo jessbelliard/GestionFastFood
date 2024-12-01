@@ -19,8 +19,18 @@ namespace GestionFastFood.Controllers
         // GET: /Mesas/Index
         public async Task<IActionResult> CreateMesa()
         {
-            var mesas = await _context.Mesas.ToListAsync();
-            return View(mesas);
+
+            try
+            {
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
         }
 
        
@@ -32,7 +42,7 @@ namespace GestionFastFood.Controllers
             {
                 _context.Add(mesa);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ListarMesas));
             }
             return View(mesa);
            
@@ -41,13 +51,13 @@ namespace GestionFastFood.Controllers
         // Acción para listar las mesas
         public async Task<IActionResult> ListarMesas()
         {
-            var mesas = _context.Mesas.ToList(); // Obtiene todas las mesas desde la base de datos
-            return View(mesas); // Pasa las mesas a la vista
+            var mesas = _context.Mesa.ToList();
+            return View(mesas);
         }
 
         public async Task<IActionResult> ActualizarMesa()
         {
-            var mesas = await _context.Mesas.ToListAsync();
+            var mesas = await _context.Mesa.ToListAsync();
             return View(mesas);
         }
         // POST: /Mesas/ActualizarEstado/{id}
@@ -55,7 +65,7 @@ namespace GestionFastFood.Controllers
         [ValidateAntiForgeryToken]
         async Task<IActionResult> ActualizarEstado(int id, string nuevoEstado)
         {
-            var mesa = await _context.Mesas.FindAsync(id);
+            var mesa = await _context.Mesa.FindAsync(id);
             if (mesa != null)
             {
                 mesa.Estado = nuevoEstado;

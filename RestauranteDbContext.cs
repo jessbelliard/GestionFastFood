@@ -8,12 +8,14 @@ namespace GestionFastFood
         public RestauranteDbContext(DbContextOptions<RestauranteDbContext> options) : base(options) { }
 
         public DbSet<User>Users { get; set; }
-        public DbSet<Mesa> Mesas { get; set; }
+        public DbSet<Mesa> Mesa { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Pedido> Pedidos { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
         public DbSet<Factura> Facturas { get; set; }
         public DbSet<PedidoProducto> PedidoProductos { get; set; }
+        public DbSet<Posicion> Posicion { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,13 +39,16 @@ namespace GestionFastFood
             modelBuilder.Entity<Factura>().ToTable("Factura");
             modelBuilder.Entity<Factura>().HasKey(x => x.FacturaID);
 
-            modelBuilder.Entity<Reserva>().HasKey(r => r.ReservaId);
+            modelBuilder.Entity<Posicion>().ToTable("Posicion");
+            modelBuilder.Entity<Posicion>().HasKey(x => x.PosicionId);
+
+            /*modelBuilder.Entity<Reserva>().HasKey(r => r.ReservaId);
             modelBuilder.Entity<Mesa>().HasKey(m => m.MesaId);
 
             modelBuilder.Entity<Mesa>()
                 .HasMany<Reserva>()
                 .WithOne()
-                .HasForeignKey(r => r.MesaId);
+                .HasForeignKey(r => r.MesaId);*/
             /*modelBuilder.Entity<PedidoProducto>().ToTable("PedidoProducto");
             modelBuilder.Entity<PedidoProducto>().HasKey(x => x.);*/
 

@@ -1,6 +1,7 @@
 ﻿using GestionFastFood.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace GestionFastFood.Models
 {
@@ -17,7 +18,9 @@ namespace GestionFastFood.Models
         public int CantidadPersonas { get; set; }
         public int UsuarioID { get; set; }
 
+        //[JsonIgnore]
+        //public virtual IList<Mesa> Mesa { get; set; }
         public virtual Mesa Mesa { get; set; }
-        public virtual User Usuario { get; set; }
+        //public virtual User Usuario { get; set; }
     }
 }

@@ -30,10 +30,16 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Reserva" asp-action="CrearReserva"> Crear Reserva</a>
                         </li>
                         <li class="nav-item">
-                            <a href="@Url.Action("ListarMesas", "Mesas")">Ver Mesas</a></li>
-                            <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Mesas" asp-action="CrearReserva"> Crear Mesa</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Mesas" asp-action="CreateMesa"> Crear Mesa</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Posiciones" asp-action="CreatePosicion"> Crear Posicion</a>
+                        </li>
+                        @* <li class="nav-item">
+                            <a href="Url.Action("ListarMesas", "Mesas")">Ver Mesas</a></li>
+                            <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Mesas" asp-action="CrearMesa"> Crear Mesa</a>
+                        </li> *@
 
                     </ul>
                 </div>

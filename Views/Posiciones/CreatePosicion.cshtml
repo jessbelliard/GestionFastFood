@@ -1,0 +1,12 @@
+﻿@model GestionFastFood.Models.Posicion
+
+<h2>Crear Posicion</h2>
+
+<form asp-action="CreatePosicion" method="post">
+    <div class="form-group">
+        <label for="Nombre">Nombre de la Posicion</label>
+        <input asp-for="Nombre" class="form-control" id="Nombre" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Crear</button>
+</form>

@@ -1,0 +1,21 @@
+﻿@model IEnumerable<GestionFastFood.Models.Posicion>
+
+<h2>Listado de Posiciones</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre de Posicion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Posicion in Model)
+        {
+            <tr>
+                <td>@Posicion.PosicionId</td>
+                <td>@Posicion.Nombre</td>
+            </tr>
+        }
+    </tbody>
+</table>

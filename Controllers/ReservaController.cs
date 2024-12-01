@@ -10,11 +10,11 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace GestionFastFood.Controllers
 {
-    public class ReservaController: Controller
+    public class ReservaController : Controller
     {
         private readonly RestauranteDbContext _context;
         private readonly EmailService _emailService;
-       
+
 
         public ReservaController(RestauranteDbContext context, EmailService emailService)
         {
@@ -30,80 +30,97 @@ namespace GestionFastFood.Controllers
 
         public async Task<IActionResult> CrearReserva()
         {
-            var mesasDisponibles = await _context.Mesas
-            .Where(m => m.Estado == "Disponible")
-            .ToListAsync();
-
-            if (!mesasDisponibles.Any())
+            try
             {
-               
-                TempData["Error"] = "No hay mesas disponibles en este momento.";
-            }
+                var mesasDisponibles = await _context.Mesa
+                .Where(m => m.Estado == "Disponible")
+                .ToListAsync();
 
-            ViewBag.Mesas = new SelectList(mesasDisponibles, "MesaId", "NumeroMesa");
-            return View();
+                if (!mesasDisponibles.Any())
+                {
+                    TempData["Error"] = "No hay mesas disponibles en este momento.";
+                }
+
+                ViewBag.Mesas = new SelectList(mesasDisponibles, "MesaId", "NumeroMesa");
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearReserva(Reserva model)
-            
+
         {
-            if (ModelState.IsValid)
+            try
             {
-                var reserva = new Reserva
+                if (model.ReservaId == 0)
                 {
-                    MesaId = model.MesaId,
-                    ClienteNombre = model.ClienteNombre,
-                    FechaReserva = model.FechaReserva,
-                    CantidadPersonas = model.CantidadPersonas,    
-                    Estado = "Pendiente",
-                    UsuarioID = model.UsuarioID
-                };
-                _context.Reservas.Add(reserva);
+                    var reserva = new Reserva
+                    {
+                        MesaId = model.MesaId,
+                        ClienteNombre = model.ClienteNombre,
+                        FechaReserva = model.FechaReserva,
+                        CantidadPersonas = model.CantidadPersonas,
+                        Estado = "Pendiente",
+                        UsuarioID = model.UsuarioID
+                    };
+                    _context.Reservas.Add(reserva);
 
-              
-                var mesa = await _context.Mesas.FindAsync(reserva.MesaId);
-                if (mesa != null)
-                {
-                    mesa.Estado = "Reservada";
-                    _context.Entry(mesa).State = EntityState.Modified;
+
+                    var mesa = await _context.Mesa.FindAsync(reserva.MesaId);
+                    if (mesa != null)
+                    {
+                        mesa.Estado = "Reservada";
+                        _context.Entry(mesa).State = EntityState.Modified;
+                    }
+
+                    await _context.SaveChangesAsync();
+
+
+                    /*_context.SaveChanges();
+                    var mesasDisponibles = await _context.Mesas
+                 //.Where(m => m.Estado == "Disponible")
+               .ToListAsync();
+
+                    ViewBag.Mesas = new SelectList(_context.Mesas, "MesaId", "NumeroMesa");
+                    var mesas = _context.Mesas.ToList();
+                    if (mesas.Count == 0)
+                    {
+                        Console.WriteLine("No hay mesa disponibles");
+                    }*/
+
+
+                    /*var asunto = "Confirmación de Reserva - Gestión FastFood";
+                    var mensaje = $@"
+                        <h1>Reserva Confirmada</h1>
+                        <p>Hola {model.ClienteNombre},</p>
+                        <p>Tu reserva ha sido confirmada:</p>
+                        <ul>
+                            <li>Mesa: {model.MesaId}</li>
+                            <li>Fecha: {model.FechaReserva:dd/MM/yyyy HH:mm}</li>
+                            <li>Cantidad de Personas: {model.CantidadPersonas}</li>
+                        </ul>
+                        <p>Gracias por elegirnos.</p>";
+
+                    await _emailService.EnviarCorreoAsync("correo_cliente@gmail.com", asunto, mensaje);*/
+                    return RedirectToAction("ListaReservas");
                 }
-
-                await _context.SaveChangesAsync();
-
-
-                /*_context.SaveChanges();
-                var mesasDisponibles = await _context.Mesas
-             //.Where(m => m.Estado == "Disponible")
-           .ToListAsync();
-
-                ViewBag.Mesas = new SelectList(_context.Mesas, "MesaId", "NumeroMesa");
-                var mesas = _context.Mesas.ToList();
-                if (mesas.Count == 0)
-                {
-                    Console.WriteLine("No hay mesa disponibles");
-                }*/
-
-
-                var asunto = "Confirmación de Reserva - Gestión FastFood";
-                var mensaje = $@"
-        <h1>Reserva Confirmada</h1>
-        <p>Hola {model.ClienteNombre},</p>
-        <p>Tu reserva ha sido confirmada:</p>
-        <ul>
-            <li>Mesa: {model.MesaId}</li>
-            <li>Fecha: {model.FechaReserva:dd/MM/yyyy HH:mm}</li>
-            <li>Cantidad de Personas: {model.CantidadPersonas}</li>
-        </ul>
-        <p>Gracias por elegirnos.</p>";
-
-               await _emailService.EnviarCorreoAsync("correo_cliente@gmail.com", asunto, mensaje);
-                return RedirectToAction("ListaReservas");
             }
-            
-            ViewBag.Mesas = new SelectList(_context.Mesas, "MesaId", "NumeroMesa");
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+
+            ViewBag.Mesas = new SelectList(_context.Mesa, "MesaId", "NumeroMesa");
             return View(model);
         }
         public IActionResult ListaReservas()
@@ -112,7 +129,7 @@ namespace GestionFastFood.Controllers
             return View(reservas);
         }
 
-      
+
 
         public IActionResult EditarReserva(int id)
         {
@@ -126,7 +143,7 @@ namespace GestionFastFood.Controllers
                 Estado = reserva.Estado,
                 CantidadPersonas = reserva.CantidadPersonas
             };
-            ViewBag.Mesas = new SelectList(_context.Mesas, "MesaId", "NumeroMesa");
+            ViewBag.Mesas = new SelectList(_context.Mesa, "MesaId", "NumeroMesa");
             return View(model);
         }
 
@@ -134,19 +151,20 @@ namespace GestionFastFood.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditarReserva(int id, Reserva model)
         {
-            if (ModelState.IsValid)
+            if (id != 0)
             {
                 var reserva = _context.Reservas.Find(id);
                 if (reserva == null) return NotFound();
+                reserva.ReservaId = id;
                 reserva.MesaId = model.MesaId;
                 reserva.ClienteNombre = model.ClienteNombre;
                 reserva.FechaReserva = model.FechaReserva;
                 reserva.Estado = model.Estado;
                 reserva.CantidadPersonas = model.CantidadPersonas;
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ListaReservas");
             }
-            ViewBag.Mesas = new SelectList(_context.Mesas, "MesaId", "NumeroMesa");
+            ViewBag.Mesas = new SelectList(_context.Mesa, "MesaId", "NumeroMesa");
             return View(model);
         }
         public IActionResult BorrarReserva(int id)
