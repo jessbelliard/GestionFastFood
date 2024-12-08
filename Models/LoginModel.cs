@@ -9,8 +9,7 @@ namespace GestionFastFood.Models
 	public class LoginModel
 	{
 		public int Id { get; set; }
-		public class LoginViewModel
-		{
+		
 			[Required(ErrorMessage = "El correo es obligatorio")]
 			[EmailAddress(ErrorMessage = "Formato de correo inválido")]
 			public string Correo { get; set; }
@@ -21,7 +20,9 @@ namespace GestionFastFood.Models
 
 			[Display(Name = "Recordarme")]
 			public bool RememberMe { get; set; }
-		}
+           [Required(ErrorMessage = "El rol es obligatorio")]
+		   public string Rol { get; set; }
+		
 
 	}
 }

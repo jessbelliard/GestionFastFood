@@ -36,8 +36,8 @@ namespace GestionFastFood.Controllers
                 var nuevoUsuario = new User
                 {
                     Nombre = model.Nombre,
-                    Email = model.Email,
-                    Password = model.Password,
+                    Correo = model.Email,
+                    Contraseña = model.Password,
                     Rol = model.Rol
                 };
                 _context.Users.Add(nuevoUsuario);
@@ -55,7 +55,7 @@ namespace GestionFastFood.Controllers
             var model = new UserViewModel
             {
                 Nombre = usuario.Nombre,
-                Email = usuario.Email,
+                Email = usuario.Correo,
                 Rol = usuario.Rol
             };
             return View(model);
@@ -71,7 +71,7 @@ namespace GestionFastFood.Controllers
                 if (usuario == null) return NotFound();
 
                 usuario.Nombre = model.Nombre;
-                usuario.Email = model.Email;
+                usuario.Correo = model.Email;
                 usuario.Rol = model.Rol;
                 _context.SaveChanges();
                 return RedirectToAction("Index");

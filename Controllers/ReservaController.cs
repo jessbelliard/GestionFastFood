@@ -59,7 +59,11 @@ namespace GestionFastFood.Controllers
 
         {
             try
-            {
+            {        //fechas actuales
+                if (model.FechaReserva < DateTime.Now)
+                {
+                    ModelState.AddModelError("FechaReserva", "La fecha de la reserva no puede ser en el pasado.");
+                }
                 if (model.ReservaId == 0)
                 {
                     var reserva = new Reserva
@@ -151,6 +155,10 @@ namespace GestionFastFood.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditarReserva(int id, Reserva model)
         {
+            if (model.FechaReserva < DateTime.Now)
+            {
+                ModelState.AddModelError("FechaReserva", "La fecha de la reserva no puede ser en el pasado.");
+            }
             if (id != 0)
             {
                 var reserva = _context.Reservas.Find(id);

@@ -1,5 +1,6 @@
 ﻿using GestionFastFood.Models;
 using Microsoft.EntityFrameworkCore;
+using YourNamespace.Models;
 
 namespace GestionFastFood
 {
@@ -15,6 +16,7 @@ namespace GestionFastFood
         public DbSet<Factura> Facturas { get; set; }
         public DbSet<PedidoProducto> PedidoProductos { get; set; }
         public DbSet<Posicion> Posicion { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,6 +44,13 @@ namespace GestionFastFood
             modelBuilder.Entity<Posicion>().ToTable("Posicion");
             modelBuilder.Entity<Posicion>().HasKey(x => x.PosicionId);
 
+
+        modelBuilder.Entity<Pedido>()
+        .HasOne(p => p.Posicion)  // Relación uno-a-uno desde Pedido a Posicion
+        .WithOne(p => p.Pedido)  // Relación inversa desde Posicion a Pedido
+        .HasForeignKey<Posicion>(p => p.PedidoId); // Clave foránea en Posicion
+
+            base.OnModelCreating(modelBuilder);
             /*modelBuilder.Entity<Reserva>().HasKey(r => r.ReservaId);
             modelBuilder.Entity<Mesa>().HasKey(m => m.MesaId);
 

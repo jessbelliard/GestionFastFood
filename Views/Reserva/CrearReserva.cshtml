@@ -19,7 +19,8 @@
     </div>
     <div class="form-group">
         <label>Fecha de la Reserva</label>
-        <input asp-for="FechaReserva" class="form-control" type="datetime-local" />
+        <input asp-for="FechaReserva" class="form-control" type="datetime-local"
+               min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
         @Html.ValidationMessageFor(model => model.FechaReserva, "", new { @class = "text-danger" })
 
     </div>

@@ -15,7 +15,7 @@ namespace GestionFastFood.Controllers
             _logger = logger;
         }
 
-		public IActionResult Login()
+		public IActionResult LoginView()
 		{
 			return View();
 		}

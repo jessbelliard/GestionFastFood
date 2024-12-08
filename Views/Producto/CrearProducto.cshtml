@@ -1,0 +1,36 @@
+﻿@model GestionFastFood.Models.Producto
+
+@{
+    ViewData["Title"] = "Crear Producto";
+}
+
+<h1>Crear Producto</h1>
+
+<form asp-action="Crear" method="post">
+    <div class="form-group">
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Precio"></label>
+        <input asp-for="Precio" class="form-control" />
+        <span asp-validation-for="Precio" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Descripcion"></label>
+        <textarea asp-for="Descripcion" class="form-control"></textarea>
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PedidoId">Pedido</label>
+        <select asp-for="PedidoId" asp-items="ViewBag.Pedidos" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="PosicionId">Posición</label>
+        <select asp-for="PosicionId" asp-items="ViewBag.Posiciones" class="form-control"></select>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+
+<hr />

@@ -4,6 +4,7 @@ using GestionFastFood;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionFastFood.Migrations
 {
     [DbContext(typeof(RestauranteDbContext))]
-    partial class RestauranteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241208013405_UserProfile")]
+    partial class UserProfile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,10 +91,6 @@ namespace GestionFastFood.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PedidoID"));
 
-                    b.Property<string>("Detalle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Estado")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -99,7 +98,7 @@ namespace GestionFastFood.Migrations
                     b.Property<int>("MesaID")
                         .HasColumnType("int");
 
-                    b.Property<int>("PosicionId")
+                    b.Property<int>("Posicion")
                         .HasColumnType("int");
 
                     b.HasKey("PedidoID");
@@ -157,8 +156,7 @@ namespace GestionFastFood.Migrations
 
                     b.HasIndex("MesaId");
 
-                    b.HasIndex("PedidoId")
-                        .IsUnique();
+                    b.HasIndex("PedidoId");
 
                     b.ToTable("Posicion", (string)null);
                 });
@@ -179,20 +177,10 @@ namespace GestionFastFood.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PosicionId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Precio")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ProductoId");
-
-                    b.HasIndex("PedidoId");
-
-                    b.HasIndex("PosicionId");
 
                     b.ToTable("Producto", (string)null);
                 });
@@ -247,15 +235,21 @@ namespace GestionFastFood.Migrations
 
                     b.Property<string>("Contraseña")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Password");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Correo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Email");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -357,33 +351,14 @@ namespace GestionFastFood.Migrations
                         .IsRequired();
 
                     b.HasOne("GestionFastFood.Models.Pedido", "Pedido")
-                        .WithOne("Posicion")
-                        .HasForeignKey("GestionFastFood.Models.Posicion", "PedidoId")
+                        .WithMany()
+                        .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Mesa");
 
                     b.Navigation("Pedido");
-                });
-
-            modelBuilder.Entity("GestionFastFood.Models.Producto", b =>
-                {
-                    b.HasOne("GestionFastFood.Models.Pedido", "Pedido")
-                        .WithMany()
-                        .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GestionFastFood.Models.Posicion", "Posicion")
-                        .WithMany()
-                        .HasForeignKey("PosicionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pedido");
-
-                    b.Navigation("Posicion");
                 });
 
             modelBuilder.Entity("GestionFastFood.Models.Reserva", b =>
@@ -415,9 +390,6 @@ namespace GestionFastFood.Migrations
             modelBuilder.Entity("GestionFastFood.Models.Pedido", b =>
                 {
                     b.Navigation("PedidoProductos");
-
-                    b.Navigation("Posicion")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("GestionFastFood.Models.User", b =>

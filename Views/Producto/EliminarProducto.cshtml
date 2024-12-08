@@ -1,0 +1,53 @@
+﻿<!-- Vista Eliminar -->
+@model GestionFastFood.Models.Producto
+
+@{
+    ViewData["Title"] = "Eliminar Producto";
+}
+
+<h1>Eliminar Producto</h1>
+<div>
+    <h3>¿Está seguro que desea eliminar este producto?</h3>
+    <div>
+        <h4>Producto</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Nombre
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Nombre
+            </dd>
+            <dt class="col-sm-2">
+                Precio
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Precio
+            </dd>
+            <dt class="col-sm-2">
+                Descripción
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Descripcion
+            </dd>
+            <dt class="col-sm-2">
+                Pedido
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Pedido.Detalle
+            </dd>
+            <dt class="col-sm-2">
+                Posición
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Posicion.Nombre
+            </dd>
+        </dl>
+    </div>
+
+    <form asp-action="EliminarConfirmado" method="post">
+        <input type="hidden" asp-for="ProductoId" />
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a asp-action="Listar" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

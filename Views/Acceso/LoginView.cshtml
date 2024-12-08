@@ -1,5 +1,6 @@
-﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal;
-@model GestionFastFood.Models.User;
+﻿
+@using GestionFastFood.Models
+@model LoginModel
 
 <h2>Iniciar Sesion</h2>
 
@@ -25,8 +26,9 @@
             <option value="Administrador">Administrador</option>
             <option value="Caja">Caja</option>
             <option value="Mesero">Mesero</option>
+            <option value="Recepcion">Recepcion</option>
         </select>
         <span asp-validation-for="Rol" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Login</button>
+    <button type="submit" class="btn btn-primary">Ingresar</button>
 </form>

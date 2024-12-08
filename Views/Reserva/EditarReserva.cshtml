@@ -4,15 +4,18 @@
 <form asp-action="EditarReserva" method="post">
     <div class="form-group">
         <label>Mesa</label>
-        <select asp-for="MesaId" asp-items="ViewBag.Mesas" class="form-control"></select>
+        <select asp-for="MesaId" asp-items="ViewBag.Mesas" class="form-control" disabled="disabled"></select>
     </div>
     <div class="form-group">
         <label>Nombre del Cliente</label>
-        <input asp-for="ClienteNombre" class="form-control" />
+        <input asp-for="ClienteNombre" class="form-control" disabled="disabled" />
+        <input asp-for="ClienteNombre" type="hidden" />
     </div>
     <div class="form-group">
         <label>Fecha de la Reserva</label>
-        <input asp-for="FechaReserva" class="form-control" type="datetime-local" />
+        <input asp-for="FechaReserva" class="form-control" type="datetime-local"
+               min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+        @Html.ValidationMessageFor(model => model.FechaReserva, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
         <label>Estado</label>

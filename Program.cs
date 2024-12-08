@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using GestionFastFood.Models;
 using GestionFastFood.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace GestionFastFood
 {
@@ -20,13 +21,21 @@ namespace GestionFastFood
             options.UseSqlServer(builder.Configuration.GetConnectionString("RestaurantDB")));
 
             builder.Services.AddScoped<EmailService>();
+            /*builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(option =>
+                {
+                    option.LoginPath = "/Account/Login";
+                    option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+
+                });*/
+            
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Acceso/User");
+                app.UseExceptionHandler("/Acceso/Login");
                 app.UseHsts();
             }
 
@@ -40,7 +49,7 @@ namespace GestionFastFood
                 {
                     app.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Acceso}/{action=Register}/{id?}");
+                    pattern: "{controller=Acceso}/{action=LoginView}/{id?}");
 
                     /*Ruta específica para el controlador 'Reserva' y su acción 'Index'
                     endpoints.MapControllerRoute(

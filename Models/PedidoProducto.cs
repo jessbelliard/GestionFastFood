@@ -10,6 +10,7 @@ namespace GestionFastFood.Models
 		public int ProductoID { get; set; }
 		public int Cantidad { get; set; }
 
+
 		public Pedido Pedido { get; set; }
 		public Producto Producto { get; set; }
 	}

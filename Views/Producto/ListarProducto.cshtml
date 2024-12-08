@@ -1,0 +1,38 @@
+﻿<!-- Vista Listar -->
+@model IEnumerable<GestionFastFood.Models.Producto>
+
+@{
+    ViewData["Title"] = "Listar Productos";
+}
+
+<h1>Lista de Productos</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Descripción</th>
+            <th>Pedido</th>
+            <th>Posición</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var producto in Model)
+        {
+            <tr>
+                <td>@producto.Nombre</td>
+                <td>@producto.Precio</td>
+                <td>@producto.Descripcion</td>
+                <td>@producto.Pedido.Detalle</td>
+                <td>@producto.Posicion.Nombre</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@producto.ProductoId" class="btn btn-warning">Editar</a>
+                    <a asp-action="Eliminar" asp-route-id="@producto.ProductoId" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Crear" class="btn btn-primary">Crear Nuevo Producto</a>
